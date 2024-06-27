@@ -20,7 +20,7 @@ const FilesList = ({ folderId, linkToken, isNotRootFolder }) => {
 
     const fetchFiles = async () => {
         try {
-            let posturl ="https://balldontlie.fr/api/folders/"+folderId+"/files";
+            let posturl ="https://balldontlie.fr/pbox/api/folders/"+folderId+"/files";
              if(linkToken!==undefined) {
                 posturl = "https://balldontlie.fr/shareable-links/"+folderId+"/files";
              }

@@ -6,7 +6,7 @@ const DownloadFolder = ({ folderId, noText }) => {
 
     const handleDownload = async () => {
         try {
-            const response = await axios.get(`https://balldontlie.fr/api/folders/${folderId}/download`, {
+            const response = await axios.get(`https://balldontlie.fr/pbox/api/folders/${folderId}/download`, {
                 responseType: 'blob', // Important for handling binary data
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem('token')}` // Adjust for your authentication method

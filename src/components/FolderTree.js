@@ -21,7 +21,7 @@ const FolderTree = () => {
 
     const fetchFolders = async () => {
         try {
-            const response = await axios.get(`https://balldontlie.fr/api/folders/${folderId}`, {
+            const response = await axios.get(`https://balldontlie.fr/pbox/api/folders/${folderId}`, {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 },

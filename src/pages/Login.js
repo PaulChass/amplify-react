@@ -11,7 +11,7 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('https://balldontlie.fr/api/auth/login', { email, password });
+      const response = await axios.post('https://balldontlie.fr/pbox/api/auth/login', { email, password });
       alert('Login successful');
       localStorage.setItem('email', email); // Store username in localStorage
       localStorage.setItem('token', response.data.token);
