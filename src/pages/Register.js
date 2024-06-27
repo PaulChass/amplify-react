@@ -11,7 +11,7 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('http://localhost:5000/api/auth/register', { username, email, password });
+      await axios.post('http://balldontlie.fr/api/auth/register', { username, email, password });
       alert('User registered successfully');
       if(localStorage.getItem('tokenUrl')!==undefined)
         {

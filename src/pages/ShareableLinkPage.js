@@ -33,7 +33,7 @@ const ShareableLinkPage = ({ }) => {
         },
         withCredentials: true
       };
-      const response = await axios.get(`http://localhost:5000/api/shareable-links/${token}`, config);
+      const response = await axios.get(`http://balldontlie.fr/api/shareable-links/${token}`, config);
       setType(response.data.type);
       setThisFolder(response.data.folder);
       setFolders(response.data.folders);

@@ -21,9 +21,9 @@ const FileUpload = ({ folderId , setUpdated, linkToken, setIsRootFolder }) => {
     formData.append( 'folderId', folderId);
 
     
-    let postUrl = 'http://localhost:5000/api/folders/'+folderId+'/upload';
+    let postUrl = 'http://balldontlie.fr/api/folders/'+folderId+'/upload';
     if(linkToken!==undefined) {
-      postUrl = "http://localhost:5000/api/shareable-links/"+linkToken+"/upload";
+      postUrl = "http://balldontlie.fr/api/shareable-links/"+linkToken+"/upload";
    }
     try {
       await axios.post(postUrl, formData, {
