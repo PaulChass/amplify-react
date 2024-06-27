@@ -20,7 +20,7 @@ const CreateFolder = ({ setFolders, folderId }) => {
                 withCredentials: true
             };
 
-            const response = await axios.post('http://balldontlie.fr/api/folders/', requestData, config);
+            const response = await axios.post('https://balldontlie.fr/api/folders/', requestData, config);
             console.log('Folder created:', response.data);
 
             // Clear input fields after successful creation

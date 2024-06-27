@@ -19,7 +19,7 @@ const CreateShareableLink = ({ folderId }) => {
       };
 
       // Send request to backend to create shareable link
-      const response = await axios.post('http://balldontlie.fr/api/shareable-links/create', {
+      const response = await axios.post('https://balldontlie.fr/api/shareable-links/create', {
         email: localStorage.getItem('email'),
         type,
         folderId,

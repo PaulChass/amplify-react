@@ -20,9 +20,9 @@ const FilesList = ({ folderId, linkToken, isNotRootFolder }) => {
 
     const fetchFiles = async () => {
         try {
-            let posturl ="http://balldontlie.fr/api/folders/"+folderId+"/files";
+            let posturl ="https://balldontlie.fr/api/folders/"+folderId+"/files";
              if(linkToken!==undefined) {
-                posturl = "http://balldontlie.fr/shareable-links/"+folderId+"/files";
+                posturl = "https://balldontlie.fr/shareable-links/"+folderId+"/files";
              }
             const response = await axios.get(posturl, {
                 headers: {
