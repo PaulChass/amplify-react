@@ -28,10 +28,10 @@ const DownloadFolder = ({ folderId, noText }) => {
         }
     };
 
-    return (
+    return (<div>
 <button onClick={handleDownload} disabled={isLoading}>
-          {isLoading ? 'Downloading...Be patient this could take a while 😉' : 'Download This Folder'}
-        </button>    );
+          {isLoading ? 'Downloading...' : 'Download This Folder'}
+        </button><h3>Be patient... this could take a while 😉</h3></div>    );
 };
 
 export default DownloadFolder;
