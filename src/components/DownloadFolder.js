@@ -29,7 +29,7 @@ const DownloadFolder = ({ folderId, noText }) => {
     };
 
     return (<div>
-<button onClick={handleDownload} disabled={isLoading}>
+<button className='bigButton' onClick={handleDownload} disabled={isLoading}>
           {isLoading ? 'Downloading...' : 'Download This Folder'}
         </button>{isLoading && <h3>Be patient... this could take a while 😉</h3>}</div>    );
 };
