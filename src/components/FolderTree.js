@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import api , { baseUrl } from '../api.js'; // Adjust the path according to your file structure
 import CreateFolder from '../components/CreateFolder';
 import FileList from '../components/FilesList';
 import { useLocation } from 'react-router-dom';
@@ -21,7 +21,7 @@ const FolderTree = () => {
 
     const fetchFolders = async () => {
         try {
-            const response = await axios.get(`https://balldontlie.fr/pbox/api/folders/${folderId}`, {
+            const response = await api.get(`${baseUrl}/folders/${folderId}`, {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 },

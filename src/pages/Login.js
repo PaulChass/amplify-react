@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import api , { baseUrl } from '../api.js'; // Adjust the path according to your file structure
 import { useNavigate } from 'react-router-dom';
 
 
@@ -11,7 +11,7 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('https://balldontlie.fr/pbox/api/auth/login', { email, password });
+      const response = await api.post(`${baseUrl}/auth/login`, { email, password });
       alert('Login successful');
       localStorage.setItem('email', email); // Store username in localStorage
       localStorage.setItem('token', response.data.token);
