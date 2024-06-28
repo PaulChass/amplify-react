@@ -64,7 +64,7 @@ const CreateShareableLink = ({ folderId }) => {
         {shareableLink && (
           <div>
             <p>Shareable Link:</p>
-            <a href={`http://localhost:3000/shareable-link/${shareableLink.token}`} target="_blank" rel="noopener noreferrer">
+            <a href={`https://pbox.paulchasseuil.fr/shareable-link/${shareableLink.token}`} target="_blank" rel="noopener noreferrer">
               Click to Access
             </a>
           </div>

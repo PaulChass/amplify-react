@@ -22,7 +22,7 @@ const FilesList = ({ folderId, linkToken, isNotRootFolder }) => {
         try {
             let posturl = `${baseUrl}/folders/${folderId}/files`;
             if(linkToken!==undefined) {
-                posturl = "http://localhost:5000/shareable-links/"+folderId+"/files";
+                posturl = `${baseUrl}/shareable-links/${folderId}/files`;
              }
             const response = await api.get(posturl, {
                 headers: {

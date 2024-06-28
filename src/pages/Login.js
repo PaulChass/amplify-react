@@ -17,7 +17,7 @@ const Login = () => {
       localStorage.setItem('token', response.data.token);
       if(localStorage.getItem('tokenUrl')!==undefined && localStorage.getItem('tokenUrl') !== '')
         {
-          window.location.replace('http://localhost:3000/shareable-link/'+localStorage.getItem('tokenUrl'))
+          window.location.replace('https://pbox.paulchasseuil.fr/shareable-link/'+localStorage.getItem('tokenUrl'))
         }
       
       navigate('/');
