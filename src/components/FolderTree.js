@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import api , { baseUrl } from '../api.js'; // Adjust the path according to your file structure
+import api, { baseUrl } from '../api.js'; // Adjust the path according to your file structure
 import CreateFolder from '../components/CreateFolder';
 import FileList from '../components/FilesList';
 import { useLocation } from 'react-router-dom';
 import DownloadFolder from './DownloadFolder';
+import DeleteFolder from './DeleteFolder';
 import CreateShareableLink from './CreateShareableLink';
 
 
@@ -11,14 +12,14 @@ const FolderTree = () => {
     const [folders, setFolders] = useState([]);
     const [folderId, setFolderId] = useState(null);
     const [folderName, setFolderName] = useState('root');
-    const [loggedIn,setLoggedIn] = useState(false);
+    const [loggedIn, setLoggedIn] = useState(false);
     const location = useLocation();
-    
+
     const token = localStorage.getItem('token');
     const email = localStorage.getItem('email');
     useEffect(() => {
         fetchFolders();
-    }, [folderId, location.pathname]);   
+    }, [folderId, location.pathname]);
 
     const fetchFolders = async () => {
         try {
@@ -30,7 +31,6 @@ const FolderTree = () => {
             });
             setFolders(response.data);
             setLoggedIn(true);
-            
         } catch (error) {
             console.error('Error fetching folders:', error);
         }
@@ -39,6 +39,7 @@ const FolderTree = () => {
 
     const handleClick = (id) => {
         setFolderId(id);
+       
         setFolderName(folders.find(folder => folder.id === id).name);
     };
 
@@ -50,7 +51,15 @@ const FolderTree = () => {
     };
 
     const handleBackClick = () => {
-        setFolderId(findParentFolderId(folders, folderId));
+        const id = findParentFolderId(folders, folderId);
+        setFolderId(id);
+        if (id === null) {
+            setFolderName('root');
+        }
+        else {
+            const folder = folders.find(folder => folder.id === id);
+            setFolderName(folder.name);
+        } 
     }
 
 
@@ -71,29 +80,31 @@ const FolderTree = () => {
                 <li key={folder.id}>
                     <button onClick={() => handleClick(folder.id)} >{folder.name}
                     </button>
+                    <DeleteFolder folderId={folder.id} setFolders={setFolders} />
                 </li>
             ));
     };
-    
-    if (!loggedIn){
+
+    if (!loggedIn) {
         return (<div><h2>My drive</h2>
-        <p>You need to Sign In to access your drive <a href='/login' style={{marginLeft:'10px',marginRight:'10px'}} >Sign in</a> <a href='/register'>Register</a></p></div>);
-    }else{
-    return (
-        <div>
-            <h2>My drive</h2>
-            <h3>{folderName}</h3>
-            {isNotRootFolder && <button onClick={() => handleBackClick(folderId)}>...</button>}
-            <ul>{renderFolders(folders)}
-            <CreateFolder setFolders={setFolders} folderId={folderId} />
+            <p>You need to Sign In to access your drive <a href='/login' style={{ marginLeft: '10px', marginRight: '10px' }} >Sign in</a> <a href='/register'>Register</a></p></div>);
+    } else {
+        return (
+            <div>
+                <h2>My drive</h2>
+                <h3>{folderName}</h3>
+                {isNotRootFolder && <button onClick={() => handleBackClick(folderId)}>...</button>}
+                <ul>{renderFolders(folders)}
+                    <CreateFolder setFolders={setFolders} folderId={folderId} />
 
                 </ul>
-                <FileList folderId={folderId} isNotRootFolder={isNotRootFolder}/>
-                {isNotRootFolder &&<DownloadFolder folderId={folderId||null} />} 
-                {isNotRootFolder && <CreateShareableLink folderId={folderId}/>}
-            
-        </div>
-    );
+                <FileList folderId={folderId} isNotRootFolder={isNotRootFolder} />
+                {isNotRootFolder && <DownloadFolder folderId={folderId || null} />}
+
+                {isNotRootFolder && <CreateShareableLink folderId={folderId} />}
+
+            </div>
+        );
     }
 };
 
