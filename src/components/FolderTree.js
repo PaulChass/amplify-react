@@ -10,19 +10,13 @@ import CreateShareableLink from './CreateShareableLink';
 const FolderTree = () => {
     const [folders, setFolders] = useState([]);
     const [folderId, setFolderId] = useState(null);
-    const [folderName, setFolderName] = useState('root');
     const [loggedIn,setLoggedIn] = useState(false);
     const location = useLocation();
     
     const token = localStorage.getItem('token');
     const email = localStorage.getItem('email');
-
-
-
-
     useEffect(() => {
         fetchFolders();
-        findFolderName(folderId)
     }, [folderId, location.pathname]);   
 
     const fetchFolders = async () => {
@@ -49,17 +43,9 @@ const FolderTree = () => {
     const findParentFolderId = (folders, id) => {
         const folder = folders.find(folder => folder.id === id);
         if (folder) {
-            folder.parent_id
+            return folder.parent_id
         }
     };
-
-    const findFolderName = (folders, id) => {
-        const folder = folders.find(folder => folder.id === id);
-        if (folder) {
-            setFolderName(folder.name)
-        }
-    };
-
 
     const handleBackClick = () => {
         setFolderId(findParentFolderId(folders, folderId));
@@ -94,7 +80,6 @@ const FolderTree = () => {
     return (
         <div>
             <h2>My drive</h2>
-            <h3>{folderName}</h3>
             {isNotRootFolder && <button onClick={() => handleBackClick(folderId)}>...</button>}
             <ul>{renderFolders(folders)}
             <CreateFolder setFolders={setFolders} folderId={folderId} />
