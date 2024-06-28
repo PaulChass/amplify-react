@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import api , { baseUrl } from '../api.js'; // Adjust the path according to your file structure
-
+import '../css/DownloadFolder.css'; 
 const DownloadFolder = ({ folderId, noText }) => {
     const [isLoading, setIsLoading] = useState(false);
 
