@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import api , { baseUrl } from '../api.js'; // Adjust the path according to your file structure
 import FileUpload from './FileUpload';
 import { useLocation } from 'react-router-dom';
+import '../css/FileList.css';
 
 
 const FilesList = ({ folderId, linkToken, isNotRootFolder }) => {
