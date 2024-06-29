@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import api , { baseUrl } from '../api.js'; // Adjust the path according to your file structure
+import api, { baseUrl } from '../api.js'; // Adjust the path according to your file structure
 import { useParams } from 'react-router-dom';
 import DownloadFolder from '../components/DownloadFolder';
 import FileUpload from '../components/FileUpload';
@@ -11,7 +11,7 @@ import RenameFolder from '../components/RenameFolder';
 import RenameFile from '../components/RenameFile.js';
 
 
-import { Container, Row, Col, Button, Card , Dropdown, Spinner} from 'react-bootstrap';
+import { Container, Row, Col, Button, Card, Dropdown, Spinner } from 'react-bootstrap';
 
 
 
@@ -60,35 +60,35 @@ const ShareableLinkPage = ({ }) => {
       .filter(folder => folder.parent_id === thisFolder.id)
       .map(folder => (
         <div key={folder.id} className='flexCenter'>
-        <div style={{display:'flex'}}>
-        <Card className="folder" onClick={() => handleClick(folder.id)} style={{ width: '18rem' }}>
-            <Card.Body>
+          <div style={{ display: 'flex' }}>
+            <Card className="folder" onClick={() => handleClick(folder.id)} style={{ width: '18rem' }}>
+              <Card.Body>
                 <Card.Title>{folder.name}</Card.Title>
-            </Card.Body>
-        </Card>
-        <Dropdown >
-            <Dropdown.Toggle variant="dark" id="dropdown-basic">
-             
-            </Dropdown.Toggle>
+              </Card.Body>
+            </Card>
+            <Dropdown >
+              <Dropdown.Toggle variant="dark" id="dropdown-basic">
 
-            <Dropdown.Menu>
-                <Dropdown.Item>                    
-                    <RenameFolder folderId={folder.id} setFolders={setFolders} setUpdated={setUpdated} />
+              </Dropdown.Toggle>
+
+              <Dropdown.Menu>
+              <Dropdown.Item >
+                  <DownloadFolder folderId={folder.id} isLoading={isLoading} setIsLoading={setIsLoading} />
                 </Dropdown.Item>
-                <Dropdown.Item >                    
-                    <DeleteFolder folderId={folder.id} setFolders={setFolders} />
+                <Dropdown.Item >
+                  <DeleteFolder folderId={folder.id} setFolders={setFolders} />
                 </Dropdown.Item>
-                <Dropdown.Item >                    
-                    <DownloadFolder folderId={folder.id} isLoading={isLoading} setIsLoading={setIsLoading} />
+                <Dropdown.Item >
+                  <button onClick={() => handleCreateLinkClick(folder.id)}>Share</button>
                 </Dropdown.Item>
-                <Dropdown.Item >                    
-                    <button onClick={() => handleCreateLinkClick(folder.id)}>Share</button>
+                <Dropdown.Item>
+                  <RenameFolder folderId={folder.id} setFolders={setFolders} setUpdated={setUpdated} />
                 </Dropdown.Item>
 
-            </Dropdown.Menu>
-        </Dropdown>
+              </Dropdown.Menu>
+            </Dropdown>
+          </div>
         </div>
-    </div>
       ));
   };
 
@@ -97,29 +97,25 @@ const ShareableLinkPage = ({ }) => {
       .filter(file => file.folder_id === thisFolder.id)
       .map(file => (
         <div key={file.id} className='flexCenter'>
-          
-          <span style={{marginRight:'1rem'}}>{file.name}</span>
-                                  <Dropdown >
-                        <Dropdown.Toggle variant="dark" id="dropdown-filelist">
-                         
-                        </Dropdown.Toggle>
 
-                        <Dropdown.Menu>
-                            <Dropdown.Item>                    
-                            <RenameFile fileId={file.id} setFiles={setFiles} />
-                            </Dropdown.Item>
-                            <Dropdown.Item >                    
-                            <DownloadFile file={file}/>
-                            </Dropdown.Item>
-                            <Dropdown.Item >                    
-                            <DeleteFile fileId={file.id} setFiles={setFiles} />
-                            </Dropdown.Item>
-                           
+          <span style={{ marginRight: '1rem' }}>{file.name}</span>
+          <Dropdown >
+            <Dropdown.Toggle variant="dark" id="dropdown-filelist">
+            </Dropdown.Toggle>
+            <Dropdown.Menu>
+              <Dropdown.Item >
+                <DownloadFile file={file} />
+              </Dropdown.Item>
+              <Dropdown.Item >
+                <DeleteFile fileId={file.id} setFiles={setFiles} />
+              </Dropdown.Item>
+              <Dropdown.Item>
+                <RenameFile fileId={file.id} setFiles={setFiles} />
+              </Dropdown.Item>
+            </Dropdown.Menu>
+          </Dropdown>
+        </div>
 
-                        </Dropdown.Menu>
-                    </Dropdown>
-                                </div>
-        
       ));
   };
 
@@ -141,38 +137,38 @@ const ShareableLinkPage = ({ }) => {
 
   const handleCreateLinkClick = (id) => {
     if (showCreateLink == true) {
-        setShowCreateLink(false);
+      setShowCreateLink(false);
     } else {
-        setShareFolderId(id);
-        setShareFolderName(folders.find(folder => folder.id === id).name);
-        setShowCreateLink(true);
+      setShareFolderId(id);
+      setShareFolderName(folders.find(folder => folder.id === id).name);
+      setShowCreateLink(true);
     }
   };
 
   let empty = thisFolder.length == 0;
   return (
     <div>
-            <h2 className='driveTitle'>Shared drive</h2>
-            {empty &&
+      <h2 className='driveTitle'>Shared drive</h2>
+      {empty &&
         <h3>This folder is private you need to log in to access its content
           <a style={{ marginLeft: '20px' }} href="/login">Sign in</a>
           <a style={{ marginLeft: '20px' }} href="/Register">Sign up</a></h3>}
       <div className="folders">
-      <h3>{thisFolder.name}</h3>
-      {!isRootFolder && <button onClick={() => handleBackClick()}>...</button>}
-      <ul cl>{renderFolders(folders)}</ul>
-      {!empty && <CreateFolder setFolders={setFolders} folderId={thisFolder.id} />}
-      
-      <ul>{renderFiles(files)}</ul>
-      {!empty && <FileUpload folderId={thisFolder.id} linkToken={token} setUpdated={setUpdated} setIsRootFolder={setIsRootFolder} />}
-      {!empty && <DownloadFolder folderId={thisFolder.id} />}
-      {isLoading && 
-                    <span>Loading please wait...<Spinner animation="border" role="status">
-        <span className="visually-hidden">Loading...</span>
-      </Spinner></span>}
+        <h3>{thisFolder.name}</h3>
+        {!isRootFolder && <button onClick={() => handleBackClick()}>...</button>}
+        <ul cl>{renderFolders(folders)}</ul>
+        {!empty && <CreateFolder setFolders={setFolders} folderId={thisFolder.id} />}
+
+        <ul>{renderFiles(files)}</ul>
+        {!empty && <FileUpload folderId={thisFolder.id} linkToken={token} setUpdated={setUpdated} setIsRootFolder={setIsRootFolder} />}
+        {!empty && <DownloadFolder folderId={thisFolder.id} />}
+        {isLoading &&
+          <span>Loading please wait...<Spinner animation="border" role="status">
+            <span className="visually-hidden">Loading...</span>
+          </Spinner></span>}
       </div>
-       
-      
+
+
 
 
     </div>

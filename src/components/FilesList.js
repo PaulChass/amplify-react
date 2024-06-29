@@ -62,16 +62,16 @@ const FilesList = ({ folderId, linkToken, isNotRootFolder }) => {
                         </Dropdown.Toggle>
 
                         <Dropdown.Menu>
-                            <Dropdown.Item>                    
-                            <RenameFile fileId={file.id} setFiles={setFiles} />
-                            </Dropdown.Item>
+                           
                             <Dropdown.Item >                    
                             <DownloadFile file={file}/>
                             </Dropdown.Item>
                             <Dropdown.Item >                    
                             <DeleteFile fileId={file.id} setFiles={setFiles} />
                             </Dropdown.Item>
-                           
+                            <Dropdown.Item>                    
+                            <RenameFile fileId={file.id} setFiles={setFiles} />
+                            </Dropdown.Item>
 
                         </Dropdown.Menu>
                     </Dropdown>
