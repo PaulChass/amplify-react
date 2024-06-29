@@ -7,8 +7,8 @@ import DownloadFolder from './DownloadFolder';
 import DeleteFolder from './DeleteFolder';
 import RenameFolder from './RenameFolder';
 import CreateShareableLink from './CreateShareableLink';
-import '../css/FolderTree.css'; 
-import { Container, Row , Col , Button} from 'react-bootstrap';
+import '../css/FolderTree.css';
+import { Container, Row, Col, Button, Card , Dropdown} from 'react-bootstrap';
 
 
 const FolderTree = () => {
@@ -17,7 +17,7 @@ const FolderTree = () => {
     const [folderName, setFolderName] = useState('root');
     const [shareFolderId, setShareFolderId] = useState(null);
     const [shareFolderName, setShareFolderName] = useState('root');
-    
+
     const [loggedIn, setLoggedIn] = useState(false);
     const [updated, setUpdated] = useState(false);
     const location = useLocation();
@@ -28,7 +28,7 @@ const FolderTree = () => {
     const email = localStorage.getItem('email');
     useEffect(() => {
         fetchFolders();
-    }, [folderId, location.pathname, folderName,updated]);
+    }, [folderId, location.pathname, folderName, updated]);
 
     const fetchFolders = async () => {
         try {
@@ -55,11 +55,13 @@ const FolderTree = () => {
     };
 
     const handleCreateLinkClick = (id) => {
-        if(showCreateLink == true){
-            setShowCreateLink(false);} else {
-        setShareFolderId(id);
-        setShareFolderName(folders.find(folder => folder.id === id).name);
-        setShowCreateLink(true);}
+        if (showCreateLink == true) {
+            setShowCreateLink(false);
+        } else {
+            setShareFolderId(id);
+            setShareFolderName(folders.find(folder => folder.id === id).name);
+            setShowCreateLink(true);
+        }
     };
 
     const findParentFolderId = (folders, id) => {
@@ -78,7 +80,7 @@ const FolderTree = () => {
         else {
             let oldFolder = folderName.split(' > ').slice(0, -1).join(' > ');
             setFolderName(oldFolder);
-        } 
+        }
     }
 
 
@@ -96,38 +98,63 @@ const FolderTree = () => {
         return folders
             .filter(folder => folder.parent_id === folderId)
             .map(folder => (
-                <li key={folder.id}>
-                    <button onClick={() => handleClick(folder.id)} >{folder.name}
-                    </button>
-                    <RenameFolder folderId={folder.id} setFolders={setFolders} setUpdated={setUpdated}/>
-                    <DeleteFolder folderId={folder.id} setFolders={setFolders} />
-                    <DownloadFolder folderId={folder.id} />
-                    <button onClick={() => handleCreateLinkClick(folder.id)}>Share</button>
-                </li>
+                <div key={folder.id}>
+                    <div style={{display:'flex'}}>
+                    <Card className="folder" onClick={() => handleClick(folder.id)} style={{ width: '18rem' }}>
+                        <Card.Body>
+                            <Card.Title>{folder.name}</Card.Title>
+                        </Card.Body>
+                    </Card>
+                    <Dropdown >
+                        <Dropdown.Toggle variant="dark" id="dropdown-basic">
+                         
+                        </Dropdown.Toggle>
+
+                        <Dropdown.Menu>
+                            <Dropdown.Item>                    
+                                <RenameFolder folderId={folder.id} setFolders={setFolders} setUpdated={setUpdated} />
+                            </Dropdown.Item>
+                            <Dropdown.Item >                    
+                                <DeleteFolder folderId={folder.id} setFolders={setFolders} />
+                            </Dropdown.Item>
+                            <Dropdown.Item >                    
+                                <DownloadFolder folderId={folder.id} />
+                            </Dropdown.Item>
+                            <Dropdown.Item >                    
+                                <button onClick={() => handleCreateLinkClick(folder.id)}>Share</button>
+                            </Dropdown.Item>
+
+                        </Dropdown.Menu>
+                    </Dropdown>
+                    </div>
+                </div>
             ));
     };
 
     if (!loggedIn) {
-        return (<div><h2 id='driveTitle'>My drive</h2>
-            <p>You need to Sign In to access your drive <a href='/login' style={{ marginLeft: '10px', marginRight: '10px' }} >Sign in</a> <a href='/register'>Register</a></p></div>);
+        return (<div>
+            <h2 className='driveTitle'>My drive</h2>
+            <p>You need to Sign In to access your drive
+                <a href='/login' style={{ marginLeft: '10px', marginRight: '10px' }} >Sign in</a>
+                <a href='/register'>Register</a></p>
+        </div>);
     } else {
         return (
             <Container>
                 <Row>
-                <h2 id='driveTitle'>Welcome to your drive</h2>
+                    <Col><h2 className='driveTitle'>Welcome to your drive</h2></Col>
                 </Row>
-                <Row id="folderTree">
-                    
+                <Row className="folders">
+
                     <h3>{folderName}</h3>
-                {isNotRootFolder && <Button onClick={() => handleBackClick(folderId)}>...</Button>}
-                <ul>{renderFolders(folders)}
-                    <CreateFolder setFolders={setFolders} folderId={folderId} />
+                    {isNotRootFolder && <button style={{ width: 'auto' }} onClick={() => handleBackClick(folderId)}>...</button>}
+                    {renderFolders(folders)}
+                        <CreateFolder setFolders={setFolders} folderId={folderId} />
 
-                </ul>
-                <FileList folderId={folderId} isNotRootFolder={isNotRootFolder} />
+                    
+                    <FileList folderId={folderId} isNotRootFolder={isNotRootFolder} />
 
-                {showCreateLink && <CreateShareableLink folderId={shareFolderId} folderName={shareFolderName} />}
-              
+                    {showCreateLink && <CreateShareableLink folderId={shareFolderId} folderName={shareFolderName} />}
                 </Row>
             </Container>
         );
