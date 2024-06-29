@@ -5,6 +5,7 @@ import FileList from '../components/FilesList';
 import { useLocation } from 'react-router-dom';
 import DownloadFolder from './DownloadFolder';
 import DeleteFolder from './DeleteFolder';
+import RenameFolder from './RenameFolder';
 import CreateShareableLink from './CreateShareableLink';
 
 
@@ -12,14 +13,19 @@ const FolderTree = () => {
     const [folders, setFolders] = useState([]);
     const [folderId, setFolderId] = useState(null);
     const [folderName, setFolderName] = useState('root');
+    const [shareFolderId, setShareFolderId] = useState(null);
+    const [shareFolderName, setShareFolderName] = useState('root');
     const [loggedIn, setLoggedIn] = useState(false);
+    const [updated, setUpdated] = useState(false);
     const location = useLocation();
+    const [showCreateLink, setShowCreateLink] = useState(false);
+
 
     const token = localStorage.getItem('token');
     const email = localStorage.getItem('email');
     useEffect(() => {
         fetchFolders();
-    }, [folderId, location.pathname]);
+    }, [folderId, location.pathname, folderName,updated]);
 
     const fetchFolders = async () => {
         try {
@@ -31,6 +37,8 @@ const FolderTree = () => {
             });
             setFolders(response.data);
             setLoggedIn(true);
+            setUpdated(false);
+            setShowCreateLink(false);
         } catch (error) {
             console.error('Error fetching folders:', error);
         }
@@ -39,8 +47,15 @@ const FolderTree = () => {
 
     const handleClick = (id) => {
         setFolderId(id);
-       
         setFolderName(folders.find(folder => folder.id === id).name);
+    };
+
+    const handleCreateLinkClick = (id) => {
+        if(showCreateLink == true){
+            setShowCreateLink(false);} else {
+        setShareFolderId(id);
+        setShareFolderName(folders.find(folder => folder.id === id).name);
+        setShowCreateLink(true);}
     };
 
     const findParentFolderId = (folders, id) => {
@@ -80,7 +95,10 @@ const FolderTree = () => {
                 <li key={folder.id}>
                     <button onClick={() => handleClick(folder.id)} >{folder.name}
                     </button>
+                    <RenameFolder folderId={folder.id} setFolders={setFolders} setUpdated={setUpdated}/>
                     <DeleteFolder folderId={folder.id} setFolders={setFolders} />
+                    <DownloadFolder folderId={folder.id} />
+                    <button onClick={() => handleCreateLinkClick(folder.id)}>Share</button>
                 </li>
             ));
     };
@@ -99,9 +117,8 @@ const FolderTree = () => {
 
                 </ul>
                 <FileList folderId={folderId} isNotRootFolder={isNotRootFolder} />
-                {isNotRootFolder && <DownloadFolder folderId={folderId || null} />}
 
-                {isNotRootFolder && <CreateShareableLink folderId={folderId} />}
+                {showCreateLink && <CreateShareableLink folderId={shareFolderId} folderName={shareFolderName} />}
 
             </div>
         );
