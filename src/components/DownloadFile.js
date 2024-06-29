@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import api , { baseUrl } from '../api.js';
 
-const DownloadFile = ({ file }) => {
+const DownloadFile = ({ file , isLoading ,setIsLoading }) => {
 
     const handleDownload = async () => {    
         setIsLoading(true);
