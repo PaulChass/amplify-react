@@ -101,7 +101,7 @@ const ShareableLinkPage = ({ }) => {
       {!empty && <FileUpload folderId={thisFolder.id} linkToken={token} setUpdated={setUpdated} setIsRootFolder={setIsRootFolder} />}
       {!empty && <DownloadFolder folderId={thisFolder.id} />}
      
-        <FolderTree />
+       
       
 
 

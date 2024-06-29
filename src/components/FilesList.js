@@ -55,7 +55,7 @@ const FilesList = ({ folderId, linkToken, isNotRootFolder }) => {
                     <li key={file.id}>
                         {file.name}
                         <RenameFile fileId={file.id} setFiles={setFiles} />
-                        <DownloadFile file={file.id} />
+                        <DownloadFile file={file}/>
                         <DeleteFile fileId={file.id} setFiles={setFiles} />
                     </li>
                 ))}

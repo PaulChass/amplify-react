@@ -1,0 +1,18 @@
+#driveTitle{
+    font-size: 1.5em;
+    font-weight: bold;
+    margin: 0.5em 0;    
+    width: 100%;
+    text-align: center;
+}
+
+#folderTree{
+    width: 80%;
+    height: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 0.5em;
+    background-color: grey;
+    margin:auto;
+    border-radius: 15px;
+}

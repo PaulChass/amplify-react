@@ -7,6 +7,8 @@ import DownloadFolder from './DownloadFolder';
 import DeleteFolder from './DeleteFolder';
 import RenameFolder from './RenameFolder';
 import CreateShareableLink from './CreateShareableLink';
+import '../css/FolderTree.css'; 
+import { Container, Row , Col , Button} from 'react-bootstrap';
 
 
 const FolderTree = () => {
@@ -15,6 +17,7 @@ const FolderTree = () => {
     const [folderName, setFolderName] = useState('root');
     const [shareFolderId, setShareFolderId] = useState(null);
     const [shareFolderName, setShareFolderName] = useState('root');
+    
     const [loggedIn, setLoggedIn] = useState(false);
     const [updated, setUpdated] = useState(false);
     const location = useLocation();
@@ -47,7 +50,8 @@ const FolderTree = () => {
 
     const handleClick = (id) => {
         setFolderId(id);
-        setFolderName(folders.find(folder => folder.id === id).name);
+        let newFolder = folders.find(folder => folder.id === id).name
+        setFolderName(folderName + '  >  ' + newFolder);
     };
 
     const handleCreateLinkClick = (id) => {
@@ -72,8 +76,8 @@ const FolderTree = () => {
             setFolderName('root');
         }
         else {
-            const folder = folders.find(folder => folder.id === id);
-            setFolderName(folder.name);
+            let oldFolder = folderName.split(' > ').slice(0, -1).join(' > ');
+            setFolderName(oldFolder);
         } 
     }
 
@@ -104,14 +108,18 @@ const FolderTree = () => {
     };
 
     if (!loggedIn) {
-        return (<div><h2>My drive</h2>
+        return (<div><h2 id='driveTitle'>My drive</h2>
             <p>You need to Sign In to access your drive <a href='/login' style={{ marginLeft: '10px', marginRight: '10px' }} >Sign in</a> <a href='/register'>Register</a></p></div>);
     } else {
         return (
-            <div>
-                <h2>My drive</h2>
-                <h3>{folderName}</h3>
-                {isNotRootFolder && <button onClick={() => handleBackClick(folderId)}>...</button>}
+            <Container>
+                <Row>
+                <h2 id='driveTitle'>Welcome to your drive</h2>
+                </Row>
+                <Row id="folderTree">
+                    
+                    <h3>{folderName}</h3>
+                {isNotRootFolder && <Button onClick={() => handleBackClick(folderId)}>...</Button>}
                 <ul>{renderFolders(folders)}
                     <CreateFolder setFolders={setFolders} folderId={folderId} />
 
@@ -119,8 +127,9 @@ const FolderTree = () => {
                 <FileList folderId={folderId} isNotRootFolder={isNotRootFolder} />
 
                 {showCreateLink && <CreateShareableLink folderId={shareFolderId} folderName={shareFolderName} />}
-
-            </div>
+              
+                </Row>
+            </Container>
         );
     }
 };
