@@ -14,9 +14,12 @@ const App = () => {
   return (
     <div>
     <div className='flex-container' style={{display:'flex',backgroundColor:'rgb(24,22,59)'}}>
+    <a href='/'>
     <Image src={`${process.env.PUBLIC_URL}/images/logo.jpg`}  alt="Site Logo"   style={{maxHeight:'80px',opacity:0.8}}/>
+    </a>
     <div style={{width:'100%'}}></div>
     </div>
+
 
     <Router>
       <div>
