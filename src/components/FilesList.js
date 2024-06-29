@@ -10,7 +10,7 @@ import {  Dropdown } from 'react-bootstrap';
 
 
 
-const FilesList = ({ folderId, linkToken, isNotRootFolder }) => {
+const FilesList = ({ folderId, linkToken, isNotRootFolder, isLoading, setIsLoading }) => {
     const [files, setFiles] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -80,7 +80,7 @@ const FilesList = ({ folderId, linkToken, isNotRootFolder }) => {
                 ))}
             </ul>
             <p>{linkToken}</p>
-            {isNotRootFolder && <FileUpload folderId={folderId} setUpdated={setUpdated} linkToken={linkToken} isDownloading={isDownloading} setIsDownloading={setIsDownloading}/>}
+            {isNotRootFolder && <FileUpload folderId={folderId} setUpdated={setUpdated} linkToken={linkToken} isLoading={isLoading} setIsLoading={setIsLoading}/>}
         </div>
     );
 };

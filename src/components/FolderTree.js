@@ -153,7 +153,7 @@ const FolderTree = () => {
                     {renderFolders(folders)}
                     <CreateFolder setFolders={setFolders} folderId={folderId} />
 
-                    <FileList folderId={folderId} isNotRootFolder={isNotRootFolder} />                  
+                    <FileList folderId={folderId} isNotRootFolder={isNotRootFolder} isLoading={isLoading} setIsLoading={setIsLoading}  />                  
                     {showCreateLink && <CreateShareableLink folderId={shareFolderId} folderName={shareFolderName} />}
                     {isLoading && 
                     <span>Loading please wait...<Spinner animation="border" role="status">
