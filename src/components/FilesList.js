@@ -80,7 +80,7 @@ const FilesList = ({ folderId, linkToken, isNotRootFolder }) => {
                 ))}
             </ul>
             <p>{linkToken}</p>
-            {isNotRootFolder && <FileUpload folderId={folderId} setUpdated={setUpdated} linkToken={linkToken} />}
+            {isNotRootFolder && <FileUpload folderId={folderId} setUpdated={setUpdated} linkToken={linkToken} isDownloading={isDownloading} setIsDownloading={setIsDownloading}/>}
         </div>
     );
 };
