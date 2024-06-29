@@ -14,9 +14,9 @@ import { Container, Row, Col, Button, Card , Dropdown, Spinner} from 'react-boot
 const FolderTree = () => {
     const [folders, setFolders] = useState([]);
     const [folderId, setFolderId] = useState(null);
-    const [folderName, setFolderName] = useState('root');
+    const [folderName, setFolderName] = useState('My drive');
     const [shareFolderId, setShareFolderId] = useState(null);
-    const [shareFolderName, setShareFolderName] = useState('root');
+    const [shareFolderName, setShareFolderName] = useState('S');
     const [isLoading, setIsLoading] = useState(false);
 
     const [loggedIn, setLoggedIn] = useState(false);
@@ -76,7 +76,7 @@ const FolderTree = () => {
         const id = findParentFolderId(folders, folderId);
         setFolderId(id);
         if (id === null) {
-            setFolderName('root');
+            setFolderName('My drive');
         }
         else {
             let oldFolder = folderName.split(' > ').slice(0, -1).join(' > ');
@@ -100,7 +100,7 @@ const FolderTree = () => {
             .filter(folder => folder.parent_id === folderId)
             .map(folder => (
                 <div key={folder.id}>
-                    <div style={{display:'flex'}}>
+                    <div className='flexCenter'>
                     <Card className="folder" onClick={() => handleClick(folder.id)} style={{ width: '18rem' }}>
                         <Card.Body>
                             <Card.Title>{folder.name}</Card.Title>
@@ -127,7 +127,6 @@ const FolderTree = () => {
 
                         </Dropdown.Menu>
                     </Dropdown>
-                    
                     </div>
                 </div>
             ));
@@ -149,13 +148,12 @@ const FolderTree = () => {
                 <Row className="folders">
 
                     <h3 id='folderName'>{folderName}</h3>
-                    {isNotRootFolder && <button style={{ width: 'auto' }} onClick={() => handleBackClick(folderId)}>...</button>}
+                    {isNotRootFolder && <Button variant='secondary' style={{ width: '100%',marginTop:'3rem', marginBottom: '2rem' }} onClick={() => handleBackClick(folderId)}>...</Button>}
+
                     {renderFolders(folders)}
-                        <CreateFolder setFolders={setFolders} folderId={folderId} />
+                    <CreateFolder setFolders={setFolders} folderId={folderId} />
 
-                    
-                    <FileList folderId={folderId} isNotRootFolder={isNotRootFolder} />
-
+                    <FileList folderId={folderId} isNotRootFolder={isNotRootFolder} />                  
                     {showCreateLink && <CreateShareableLink folderId={shareFolderId} folderName={shareFolderName} />}
                     {isLoading && 
                     <span>Loading please wait...<Spinner animation="border" role="status">

@@ -8,3 +8,22 @@ li {
    color:black;
    background-color: aliceblue!important;
 }
+
+.section {
+    padding-top: 50px;
+    padding-bottom: 20px;
+    color:black;
+}
+
+.file_form {
+    display: flex;
+    width: 50%;
+    margin: 0 auto;
+    justify-content: center;
+}
+
+
+.flexCenter {
+    display: flex;
+    justify-content: center;
+}

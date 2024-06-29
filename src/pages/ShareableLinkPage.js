@@ -8,6 +8,8 @@ import DownloadFile from '../components/DownloadFile';
 import DeleteFile from '../components/DeleteFile.js';
 import DeleteFolder from '../components/DeleteFolder';
 import RenameFolder from '../components/RenameFolder';
+import RenameFile from '../components/RenameFile.js';
+
 
 import { Container, Row, Col, Button, Card , Dropdown, Spinner} from 'react-bootstrap';
 
@@ -57,7 +59,7 @@ const ShareableLinkPage = ({ }) => {
     return folders
       .filter(folder => folder.parent_id === thisFolder.id)
       .map(folder => (
-        <li key={folder.id}>
+        <div key={folder.id} className='flexCenter'>
         <div style={{display:'flex'}}>
         <Card className="folder" onClick={() => handleClick(folder.id)} style={{ width: '18rem' }}>
             <Card.Body>
@@ -86,7 +88,7 @@ const ShareableLinkPage = ({ }) => {
             </Dropdown.Menu>
         </Dropdown>
         </div>
-    </li>
+    </div>
       ));
   };
 
@@ -94,10 +96,29 @@ const ShareableLinkPage = ({ }) => {
     return files
       .filter(file => file.folder_id === thisFolder.id)
       .map(file => (
-        <li key={file.id}>{file.name}
-                                <DownloadFile file={file.id} />
-                                <DeleteFile fileId={file.id} setFiles={setFiles} />
-                                </li>
+        <div key={file.id} className='flexCenter'>
+          
+          <span style={{marginRight:'1rem'}}>{file.name}</span>
+                                  <Dropdown >
+                        <Dropdown.Toggle variant="dark" id="dropdown-filelist">
+                         
+                        </Dropdown.Toggle>
+
+                        <Dropdown.Menu>
+                            <Dropdown.Item>                    
+                            <RenameFile fileId={file.id} setFiles={setFiles} />
+                            </Dropdown.Item>
+                            <Dropdown.Item >                    
+                            <DownloadFile file={file}/>
+                            </Dropdown.Item>
+                            <Dropdown.Item >                    
+                            <DeleteFile fileId={file.id} setFiles={setFiles} />
+                            </Dropdown.Item>
+                           
+
+                        </Dropdown.Menu>
+                    </Dropdown>
+                                </div>
         
       ));
   };
@@ -141,6 +162,7 @@ const ShareableLinkPage = ({ }) => {
       {!isRootFolder && <button onClick={() => handleBackClick()}>...</button>}
       <ul cl>{renderFolders(folders)}</ul>
       {!empty && <CreateFolder setFolders={setFolders} folderId={thisFolder.id} />}
+      
       <ul>{renderFiles(files)}</ul>
       {!empty && <FileUpload folderId={thisFolder.id} linkToken={token} setUpdated={setUpdated} setIsRootFolder={setIsRootFolder} />}
       {!empty && <DownloadFolder folderId={thisFolder.id} />}

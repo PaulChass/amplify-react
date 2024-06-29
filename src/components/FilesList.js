@@ -51,10 +51,10 @@ const FilesList = ({ folderId, linkToken, isNotRootFolder }) => {
     //if (loading) return <p>Loading files...</p>;
     //if (error) return <p>You need to be logged in to access your drive {linkToken}<a style={{ marginLeft: '10px', marginRight: '10px' }} href='http://localhost:3000/login'>Login</a><a href='http://localhost:3000/register'>Register</a></p>;
     return (
-        <div>
+        <div className='section'>
             <ul>
                 {files.map(file => (
-                    <li key={file.id} style={{display:'flex'}}>
+                    <li key={file.id} style={{display:'flex',justifyContent:'center'}}>
                         {file.name}
                         <Dropdown >
                         <Dropdown.Toggle variant="dark" id="dropdown-filelist">

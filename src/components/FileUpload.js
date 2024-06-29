@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import api , { baseUrl } from '../api.js'; // Adjust the path according to your file structure
+import { Form, Button } from 'react-bootstrap';
+
 
 const FileUpload = ({ folderId , setUpdated, linkToken, setIsRootFolder }) => {
   const [selectedFiles, setSelectedFiles] = useState(null);
@@ -54,10 +56,13 @@ const FileUpload = ({ folderId , setUpdated, linkToken, setIsRootFolder }) => {
     {isLoading ? ( 
       <span>Loading... Please wait</span>
     ) : (
-      <form onSubmit={handleUpload}>
-        <input type="file" multiple onChange={handleFileChange} />
-        <button type="submit">Upload</button>
-      </form>
+      <div >
+
+      <Form onSubmit={handleUpload} className="file_form" style={{}}>
+        <Form.Control type="file" multiple onChange={handleFileChange} />
+        <Button type="submit">Upload</Button>
+      </Form>
+      </div>
     )}
   </div>
   );
