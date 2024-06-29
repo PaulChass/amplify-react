@@ -9,6 +9,7 @@ import DeleteFile from '../components/DeleteFile.js';
 import DeleteFolder from '../components/DeleteFolder';
 import RenameFolder from '../components/RenameFolder';
 import RenameFile from '../components/RenameFile.js';
+import CreateShareableLink from '../components/CreateShareableLink';
 
 
 import { Container, Row, Col, Button, Card, Dropdown, Spinner } from 'react-bootstrap';
