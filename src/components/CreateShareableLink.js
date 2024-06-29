@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import api , { baseUrl } from '../api.js'; // Adjust the path according to your file structure
+import '../css/CreateShareableLink.css';
+
 
 const CreateShareableLink = ({ folderId, folderName }) => {
   const [shareableLink, setShareableLink] = useState(null);

@@ -162,7 +162,9 @@ const ShareableLinkPage = ({ }) => {
 
         <ul>{renderFiles(files)}</ul>
         {!empty && <FileUpload folderId={thisFolder.id} linkToken={token} setUpdated={setUpdated} setIsRootFolder={setIsRootFolder} />}
-        {showCreateLink && <CreateShareableLink folderId={shareFolderId} folderName={shareFolderName} style={{marginTop:'2rem'}} />}
+          <br/>
+          
+        {showCreateLink && <CreateShareableLink folderId={shareFolderId} folderName={shareFolderName} />}
 
         {isLoading &&
           <span>Loading please wait...<Spinner animation="border" role="status">
