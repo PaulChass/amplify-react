@@ -78,9 +78,9 @@ const ShareableLinkPage = ({ }) => {
                 <Dropdown.Item >
                   <DeleteFolder folderId={folder.id} setFolders={setFolders} />
                 </Dropdown.Item>
-                <Dropdown.Item >
-                  <button onClick={() => handleCreateLinkClick(folder.id)}>Share</button>
-                </Dropdown.Item>
+                <Dropdown.Item onClick={() => handleCreateLinkClick(folder.id)}>                    
+                               Share
+                            </Dropdown.Item>
                 <Dropdown.Item>
                   <RenameFolder folderId={folder.id} setFolders={setFolders} setUpdated={setUpdated} />
                 </Dropdown.Item>
