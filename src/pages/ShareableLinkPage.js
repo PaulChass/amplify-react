@@ -9,7 +9,7 @@ import DeleteFile from '../components/DeleteFile.js';
 import DeleteFolder from '../components/DeleteFolder';
 import RenameFolder from '../components/RenameFolder';
 
-import { Container, Row, Col, Button, Card , Dropdown} from 'react-bootstrap';
+import { Container, Row, Col, Button, Card , Dropdown, Spinner} from 'react-bootstrap';
 
 
 
@@ -24,6 +24,7 @@ const ShareableLinkPage = ({ }) => {
   const [shareFolderId, setShareFolderId] = useState(null);
   const [shareFolderName, setShareFolderName] = useState('root');
   const [showCreateLink, setShowCreateLink] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   localStorage.setItem('tokenUrl', token);
   const authToken = localStorage.getItem('token');
@@ -76,7 +77,7 @@ const ShareableLinkPage = ({ }) => {
                     <DeleteFolder folderId={folder.id} setFolders={setFolders} />
                 </Dropdown.Item>
                 <Dropdown.Item >                    
-                    <DownloadFolder folderId={folder.id} />
+                    <DownloadFolder folderId={folder.id} isLoading={isLoading} setIsLoading={setIsLoading} />
                 </Dropdown.Item>
                 <Dropdown.Item >                    
                     <button onClick={() => handleCreateLinkClick(folder.id)}>Share</button>
@@ -143,6 +144,10 @@ const ShareableLinkPage = ({ }) => {
       <ul>{renderFiles(files)}</ul>
       {!empty && <FileUpload folderId={thisFolder.id} linkToken={token} setUpdated={setUpdated} setIsRootFolder={setIsRootFolder} />}
       {!empty && <DownloadFolder folderId={thisFolder.id} />}
+      {isLoading && 
+                    <span>Loading please wait...<Spinner animation="border" role="status">
+        <span className="visually-hidden">Loading...</span>
+      </Spinner></span>}
       </div>
        
       

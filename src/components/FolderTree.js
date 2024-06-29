@@ -8,7 +8,7 @@ import DeleteFolder from './DeleteFolder';
 import RenameFolder from './RenameFolder';
 import CreateShareableLink from './CreateShareableLink';
 import '../css/FolderTree.css';
-import { Container, Row, Col, Button, Card , Dropdown} from 'react-bootstrap';
+import { Container, Row, Col, Button, Card , Dropdown, Spinner} from 'react-bootstrap';
 
 
 const FolderTree = () => {
@@ -17,6 +17,7 @@ const FolderTree = () => {
     const [folderName, setFolderName] = useState('root');
     const [shareFolderId, setShareFolderId] = useState(null);
     const [shareFolderName, setShareFolderName] = useState('root');
+    const [isLoading, setIsLoading] = useState(false);
 
     const [loggedIn, setLoggedIn] = useState(false);
     const [updated, setUpdated] = useState(false);
@@ -118,7 +119,7 @@ const FolderTree = () => {
                                 <DeleteFolder folderId={folder.id} setFolders={setFolders} />
                             </Dropdown.Item>
                             <Dropdown.Item >                    
-                                <DownloadFolder folderId={folder.id} />
+                                <DownloadFolder folderId={folder.id} isLoading={isLoading} setIsLoading={setIsLoading}  />
                             </Dropdown.Item>
                             <Dropdown.Item >                    
                                 <button onClick={() => handleCreateLinkClick(folder.id)}>Share</button>
@@ -126,6 +127,7 @@ const FolderTree = () => {
 
                         </Dropdown.Menu>
                     </Dropdown>
+                    
                     </div>
                 </div>
             ));
@@ -146,7 +148,7 @@ const FolderTree = () => {
                 </Row>
                 <Row className="folders">
 
-                    <h3>{folderName}</h3>
+                    <h3 id='folderName'>{folderName}</h3>
                     {isNotRootFolder && <button style={{ width: 'auto' }} onClick={() => handleBackClick(folderId)}>...</button>}
                     {renderFolders(folders)}
                         <CreateFolder setFolders={setFolders} folderId={folderId} />
@@ -155,7 +157,12 @@ const FolderTree = () => {
                     <FileList folderId={folderId} isNotRootFolder={isNotRootFolder} />
 
                     {showCreateLink && <CreateShareableLink folderId={shareFolderId} folderName={shareFolderName} />}
+                    {isLoading && 
+                    <span>Loading please wait...<Spinner animation="border" role="status">
+        <span className="visually-hidden">Loading...</span>
+      </Spinner></span>}
                 </Row>
+                
             </Container>
         );
     }

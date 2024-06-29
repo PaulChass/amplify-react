@@ -1,3 +1,10 @@
 li {
     font-size: small;
 }
+
+#dropdown-filelist {
+   font-size: small;
+   padding: 0px 10px;
+   color:black;
+   background-color: aliceblue!important;
+}

@@ -1,18 +1,49 @@
-#driveTitle{
+.driveTitle{
     font-size: 1.5em;
     font-weight: bold;
     margin: 0.5em 0;    
     width: 100%;
     text-align: center;
+    margin: 40px;
 }
 
-#folderTree{
+.folders{
     width: 80%;
     height: 100%;
     overflow-y: auto;
     overflow-x: hidden;
-    padding: 0.5em;
-    background-color: grey;
-    margin:auto;
+    padding: 2em;
+    
+    background-color: rgb(24,22,59);
+    margin: auto!important;
     border-radius: 15px;
+    padding-bottom: 100px;
+}
+
+#dropdown-basic{
+    width: 100%;
+    margin: 80% 0;    
+}
+
+.folder{
+    display: flex;
+    align-items: center;
+    padding: 0.5em;
+    margin: 0.5em;
+    border-radius: 5px;
+    background-color: #f0f0f0;
+    cursor: pointer;
+}
+
+#folderName{
+    color: white;;
+}
+input
+{
+    width: 100%;
+    padding: 0.5em;
+    margin: 0.5em;
+    border-radius: 5px;
+    border: none;
+    color: white;
 }

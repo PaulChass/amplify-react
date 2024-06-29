@@ -6,6 +6,8 @@ import DeleteFile from './DeleteFile';
 import RenameFile from './RenameFile';
 import { useLocation } from 'react-router-dom';
 import '../css/FileList.css';
+import {  Dropdown } from 'react-bootstrap';
+
 
 
 const FilesList = ({ folderId, linkToken, isNotRootFolder }) => {
@@ -52,11 +54,28 @@ const FilesList = ({ folderId, linkToken, isNotRootFolder }) => {
         <div>
             <ul>
                 {files.map(file => (
-                    <li key={file.id}>
+                    <li key={file.id} style={{display:'flex'}}>
                         {file.name}
-                        <RenameFile fileId={file.id} setFiles={setFiles} />
-                        <DownloadFile file={file}/>
-                        <DeleteFile fileId={file.id} setFiles={setFiles} />
+                        <Dropdown >
+                        <Dropdown.Toggle variant="dark" id="dropdown-filelist">
+                         
+                        </Dropdown.Toggle>
+
+                        <Dropdown.Menu>
+                            <Dropdown.Item>                    
+                            <RenameFile fileId={file.id} setFiles={setFiles} />
+                            </Dropdown.Item>
+                            <Dropdown.Item >                    
+                            <DownloadFile file={file}/>
+                            </Dropdown.Item>
+                            <Dropdown.Item >                    
+                            <DeleteFile fileId={file.id} setFiles={setFiles} />
+                            </Dropdown.Item>
+                           
+
+                        </Dropdown.Menu>
+                    </Dropdown>
+                    
                     </li>
                 ))}
             </ul>
