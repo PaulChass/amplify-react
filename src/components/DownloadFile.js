@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import api , { baseUrl } from '../api.js';
 
 const DownloadFile = ({ file }) => {
-    const [isLoading, setIsLoading] = useState(false);
 
     const handleDownload = async () => {    
         setIsLoading(true);

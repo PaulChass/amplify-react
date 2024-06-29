@@ -104,7 +104,7 @@ const ShareableLinkPage = ({ }) => {
             </Dropdown.Toggle>
             <Dropdown.Menu>
               <Dropdown.Item >
-                <DownloadFile file={file} />
+                <DownloadFile file={file} isLoading={isLoading} setIsLoading={setIsLoading} />
               </Dropdown.Item>
               <Dropdown.Item >
                 <DeleteFile fileId={file.id} setFiles={setFiles} />
