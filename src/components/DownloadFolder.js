@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import api , { baseUrl } from '../api.js'; // Adjust the path according to your file structure
 import '../css/DownloadFolder.css'; 
-import { Button } from 'react-bootstrap';
 const DownloadFolder = ({ folderId, noText, isLoading, setIsLoading }) => {
 
     const handleDownload = async () => {
@@ -29,9 +28,9 @@ const DownloadFolder = ({ folderId, noText, isLoading, setIsLoading }) => {
     };
 
     return (<div>
-<Button className='downloadButton' onClick={handleDownload} disabled={isLoading}>
+<button className='downloadButton' onClick={handleDownload} disabled={isLoading}>
           {isLoading ? 'Downloading...' : 'Download Folder'}
-        </Button>{isLoading && <h3>Be patient... this could take a while 😉  </h3>
+        </button>{isLoading && <h3>Be patient... this could take a while 😉  </h3>
         }
         </div>    );
 };
