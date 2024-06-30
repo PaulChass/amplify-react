@@ -53,7 +53,7 @@ const FilesList = ({ folderId, linkToken, isNotRootFolder }) => {
     //if (error) return <p>You need to be logged in to access your drive {linkToken}<a style={{ marginLeft: '10px', marginRight: '10px' }} href='http://localhost:3000/login'>Login</a><a href='http://localhost:3000/register'>Register</a></p>;
     return (
         <div className='section'>
-            <ul>
+            <span>
                 {files.map(file => (
                     <li key={file.id} style={{display:'flex',justifyContent:'center'}}>
                         {file.name}
@@ -75,8 +75,8 @@ const FilesList = ({ folderId, linkToken, isNotRootFolder }) => {
                     
                     </li>
                 ))}
-            </ul>
-            <p>{linkToken}</p>
+                {files.length === 0 && <p>No files found</p>}
+            </span>
             {isNotRootFolder && <FileUpload folderId={folderId} setUpdated={setUpdated} linkToken={linkToken} />}
         </div>
     );

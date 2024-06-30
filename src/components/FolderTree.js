@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import api, { baseUrl } from '../api.js'; // Adjust the path according to your file structure
 import CreateFolder from '../components/CreateFolder';
 import FileList from '../components/FilesList';
+import FileUpload from '../components/FileUpload';
 import { useLocation } from 'react-router-dom';
 import DownloadFolder from './DownloadFolder';
 import DeleteFolder from './DeleteFolder';
@@ -114,6 +115,9 @@ const FolderTree = () => {
 
 
     const renderFolders = (folders) => {
+        if (folders.length === 0) {
+            return <p>No folders found</p>;
+        } else {
         return folders
             .filter(folder => folder.parent_id === folderId)
             .map(folder => (
@@ -147,6 +151,7 @@ const FolderTree = () => {
                     </div>
                 </div>
             ));
+        }
     };
 
     if (!loggedIn) {
@@ -163,15 +168,20 @@ const FolderTree = () => {
                     <Col><h2 className='driveTitle'>Welcome to your drive</h2></Col>
                 </Row>
                 <Row className="folders">
-
+                    
                     <h3 id='folderName'>{folderName}</h3>
+                    <div style={{marginTop:'1rem'}}>
+
                     {isNotRootFolder && <Button variant='secondary' style={{ width: '100%', marginTop: '3rem', marginBottom: '2rem' }} onClick={() => handleBackClick(folderId)}>...</Button>}
 
                     {renderFolders(folders)}
                     <CreateFolder setFolders={setFolders} folderId={folderId} />
+                    
+                    </div>    
+                    { isNotRootFolder &&  <FileList folderId={folderId} isNotRootFolder={isNotRootFolder} />}
 
-                    <FileList folderId={folderId} isNotRootFolder={isNotRootFolder} />
                     {showCreateLink && <CreateShareableLink folderId={shareFolderId} folderName={shareFolderName} />}
+                    
                     {isLoading &&
                         <span>Loading please wait...<Spinner animation="border" role="status">
                             <span className="visually-hidden">Loading...</span>

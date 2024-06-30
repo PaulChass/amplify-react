@@ -26,7 +26,7 @@ const FileUpload = ({ folderId, setUpdated, linkToken, setIsRootFolder }) => {
 
 
     let postUrl = `${baseUrl}/folders/${folderId}/upload`;
-    if (linkToken !== undefined) {
+    if (linkToken !== undefined || linkToken !== null) {
       postUrl = `${baseUrl}/shareable-links/${linkToken}/upload`;
     }
     try {
