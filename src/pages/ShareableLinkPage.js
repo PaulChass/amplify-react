@@ -188,10 +188,11 @@ const ShareableLinkPage = ({ }) => {
           <a style={{ marginLeft: '20px' }} href="/Register">Sign up</a></h3>}
       <div className="folders">
         <h3>{thisFolder.name}</h3>
+        <div style={{marginTop:'1rem',marginBottom:'1rem'}}>
         {!isRootFolder && <Button variant='secondary' style={{ width: '18rem', marginTop: '3rem', marginBottom: '2rem' }} onClick={() => handleBackClick()}>...</Button>}
         <ul cl>{renderFolders(folders)}</ul>
         {!empty && <CreateFolder setFolders={setFolders} folderId={thisFolder.id} />}
-
+        </div>
         <ul>{renderFiles(files)}</ul>
         {!empty && <FileUpload folderId={thisFolder.id} linkToken={token} setUpdated={setUpdated} setIsRootFolder={setIsRootFolder} />}
         {showCreateLink && <CreateShareableLink folderId={shareFolderId} folderName={shareFolderName} />}

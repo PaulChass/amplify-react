@@ -169,13 +169,10 @@ const FolderTree = () => {
                 <Row className="folders">
                     
                     <h3 id='folderName'>{folderName}</h3>
-                    <div style={{marginTop:'1rem'}}>
-
+                    <div style={{marginTop:'1rem',marginBottom:'1rem'}}>
                     {isNotRootFolder && <Button variant='secondary' style={{ width: '100%', marginTop: '3rem', marginBottom: '2rem' }} onClick={() => handleBackClick(folderId)}>...</Button>}
-
                     {renderFolders(folders)}
                     <CreateFolder setFolders={setFolders} folderId={folderId} />
-                    
                     </div>    
                     { isNotRootFolder &&  <FileList folderId={folderId} isNotRootFolder={isNotRootFolder}/>}
 
