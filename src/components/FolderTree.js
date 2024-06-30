@@ -2,11 +2,11 @@ import React, { useEffect, useState } from 'react';
 import api, { baseUrl } from '../api.js'; // Adjust the path according to your file structure
 import CreateFolder from '../components/CreateFolder';
 import FileList from '../components/FilesList';
-import FileUpload from '../components/FileUpload';
 import { useLocation } from 'react-router-dom';
 import DownloadFolder from './DownloadFolder';
 import DeleteFolder from './DeleteFolder';
 import RenameFolder from './RenameFolder';
+
 import CreateShareableLink from './CreateShareableLink';
 import '../css/FolderTree.css';
 import { Container, Row, Col, Button, Card, Dropdown, Spinner } from 'react-bootstrap';
@@ -26,7 +26,6 @@ const FolderTree = () => {
     const [showCreateLink, setShowCreateLink] = useState(false);
     const [showRename, setShowRename] = useState(false);
     const [showRenameId, setShowRenameId] = useState(null);
-
 
     const token = localStorage.getItem('token');
     const email = localStorage.getItem('email');
@@ -73,7 +72,7 @@ const FolderTree = () => {
                 setShowRename(true);
                 break;
 
-
+                
 
             default:
                 if(!showRename){
@@ -178,7 +177,7 @@ const FolderTree = () => {
                     <CreateFolder setFolders={setFolders} folderId={folderId} />
                     
                     </div>    
-                    { isNotRootFolder &&  <FileList folderId={folderId} isNotRootFolder={isNotRootFolder} />}
+                    { isNotRootFolder &&  <FileList folderId={folderId} isNotRootFolder={isNotRootFolder}/>}
 
                     {showCreateLink && <CreateShareableLink folderId={shareFolderId} folderName={shareFolderName} />}
                     

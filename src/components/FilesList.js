@@ -18,12 +18,22 @@ const FilesList = ({ folderId, linkToken, isNotRootFolder }) => {
     const token = localStorage.getItem('token');   
     const location = useLocation();
     const [isDownloading, setIsDownloading] = useState(false);
-
+    const [showRenameFile, setShowRenameFile] = useState(false);
+    const [showRenameFileId, setShowRenameFileId] = useState(null);
+  
   
     useEffect(() => {
         fetchFiles();
     }, [folderId, location.pathname, updated]);
 
+
+    const handleClick = (id) => {
+                setShowRenameFileId(id);
+                setShowRenameFile(true);
+                console.log(id);
+                console.log(showRenameFileId)
+        }
+    
 
     const fetchFiles = async () => {
         try {
@@ -56,20 +66,23 @@ const FilesList = ({ folderId, linkToken, isNotRootFolder }) => {
             <span>
                 {files.map(file => (
                     <li key={file.id} style={{display:'flex',justifyContent:'center'}}>
-                        {file.name}
+                        {(showRenameFile && showRenameFileId == file.id) ?
+                            <RenameFile fileId={file.id} setFiles={setFiles} setShowRenameFile={setShowRenameFile} /> 
+                            : file.name 
+                             }
                         <Dropdown >
                         <Dropdown.Toggle variant="dark" id="dropdown-filelist">
                         </Dropdown.Toggle>
                         <Dropdown.Menu>
                             <Dropdown.Item >                    
-                            <DownloadFile file={file}/>
+                            <DownloadFile file={file} setIsLoading={setLoading}/>
                             </Dropdown.Item>
                             <Dropdown.Item >                    
                             <DeleteFile fileId={file.id} setFiles={setFiles} />
                             </Dropdown.Item>
-                            <Dropdown.Item>                    
-                            <RenameFile fileId={file.id} setFiles={setFiles} />
-                            </Dropdown.Item>
+                            <Dropdown.Item onClick={() => handleClick(file.id, 'renameFile')}>
+                                Rename
+                            </Dropdown.Item>                         
                         </Dropdown.Menu>
                     </Dropdown>
                     
