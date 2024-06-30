@@ -28,6 +28,11 @@ const ShareableLinkPage = ({ }) => {
   const [shareFolderName, setShareFolderName] = useState('root');
   const [showCreateLink, setShowCreateLink] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [showRename, setShowRename] = useState(false);
+  const [showRenameId, setShowRenameId] = useState(null);
+  const [showRenameFile, setShowRenameFile] = useState(false);
+  const [showRenameFileId, setShowRenameFileId] = useState(null);
+
 
   localStorage.setItem('tokenUrl', token);
   const authToken = localStorage.getItem('token');
@@ -50,11 +55,47 @@ const ShareableLinkPage = ({ }) => {
       setFolders(response.data.folders);
       setFiles(response.data.files);
       setUpdated(false)
-
+      setShowRename(false);
+      setShowRenameFile(false);
     } catch (error) {
       console.error('Failed to fetch folders:', error);
     }
   };
+
+  const handleClick = (id, type = 'null') => {
+    switch (type) {
+        case 'createLink':
+            if (showCreateLink == true) {
+                setShowCreateLink(false);
+            } else {
+                setShareFolderId(id);
+                setShareFolderName(folders.find(folder => folder.id === id).name);
+                setShowCreateLink(true);
+            }
+            break;
+
+
+        case 'rename':
+                setShowRenameId(id);
+                setShowRename(true);
+                break;
+
+        case 'renameFile':
+            setShowRenameFileId(id);
+            setShowRenameFile(true);
+            break;
+        
+
+
+        default:
+          if(!showRename){
+          let newFolder = folders.find(folder => folder.id === id);
+          setThisFolder(newFolder);
+          setIsRootFolder(false);}
+            break;
+    }
+};
+
 
   const renderFolders = (folders) => {
     return folders
@@ -64,7 +105,9 @@ const ShareableLinkPage = ({ }) => {
           <div style={{ display: 'flex' }}>
             <Card className="folder" onClick={() => handleClick(folder.id)} style={{ width: '18rem' }}>
               <Card.Body>
-                <Card.Title>{folder.name}</Card.Title>
+                <Card.Title>
+                                    {(showRename && showRenameId == folder.id) ? <RenameFolder folderId={folder.id} setFolders={setFolders} setUpdated={setUpdated} folderName={folder.name} /> :
+                                        folder.name}</Card.Title>
               </Card.Body>
             </Card>
             <Dropdown >
@@ -74,17 +117,17 @@ const ShareableLinkPage = ({ }) => {
 
               <Dropdown.Menu>
               <Dropdown.Item >
-                  <DownloadFolder folderId={folder.id} isLoading={isLoading} setIsLoading={setIsLoading} />
+                  <DownloadFolder folderId={folder.id} isLoading={isLoading} setIsLoading={setIsLoading} setShowRename={setShowRename} />
                 </Dropdown.Item>
                 <Dropdown.Item >
                   <DeleteFolder folderId={folder.id} setFolders={setFolders} />
                 </Dropdown.Item>
-                <Dropdown.Item onClick={() => handleCreateLinkClick(folder.id)}>                    
-                               Share
-                            </Dropdown.Item>
-                <Dropdown.Item>
-                  <RenameFolder folderId={folder.id} setFolders={setFolders} setUpdated={setUpdated} />
-                </Dropdown.Item>
+                <Dropdown.Item onClick={() => handleClick(folder.id, 'createLink')}>
+                                            Share
+                                        </Dropdown.Item>
+                                        <Dropdown.Item onClick={() => handleClick(folder.id, 'rename')}>
+                                            Rename      
+                                        </Dropdown.Item>
 
               </Dropdown.Menu>
             </Dropdown>
@@ -99,7 +142,12 @@ const ShareableLinkPage = ({ }) => {
       .map(file => (
         <div key={file.id} className='flexCenter'>
 
-          <span style={{ marginRight: '1rem' }}>{file.name}</span>
+          <span style={{ marginRight: '1rem' }}>
+            {(showRenameFile && showRenameFileId == file.id) ?
+           <RenameFile fileId={file.id} setFiles={setFiles} setShowRenameFile={setShowRenameFile} /> 
+           : file.name 
+           }
+           </span>
           <Dropdown >
             <Dropdown.Toggle variant="dark" id="dropdown-filelist">
             </Dropdown.Toggle>
@@ -110,8 +158,8 @@ const ShareableLinkPage = ({ }) => {
               <Dropdown.Item >
                 <DeleteFile fileId={file.id} setFiles={setFiles} />
               </Dropdown.Item>
-              <Dropdown.Item>
-                <RenameFile fileId={file.id} setFiles={setFiles} />
+              <Dropdown.Item onClick={() => handleClick(file.id, 'renameFile')}>
+                  Rename
               </Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>
@@ -119,13 +167,7 @@ const ShareableLinkPage = ({ }) => {
 
       ));
   };
-
-  const handleClick = (id) => {
-    let newFolder = folders.find(folder => folder.id === id);
-    setThisFolder(newFolder);
-    setIsRootFolder(false);
-  };
-
+ 
   const handleBackClick = () => {
     let newFolder = folders.find(folder => folder.id === thisFolder.parent_id);
     if (newFolder) { setThisFolder(newFolder) }
@@ -135,16 +177,6 @@ const ShareableLinkPage = ({ }) => {
     };
     ;
   }
-
-  const handleCreateLinkClick = (id) => {
-    if (showCreateLink == true) {
-      setShowCreateLink(false);
-    } else {
-      setShareFolderId(id);
-      setShareFolderName(folders.find(folder => folder.id === id).name);
-      setShowCreateLink(true);
-    }
-  };
 
   let empty = thisFolder.length == 0;
   return (
@@ -162,8 +194,6 @@ const ShareableLinkPage = ({ }) => {
 
         <ul>{renderFiles(files)}</ul>
         {!empty && <FileUpload folderId={thisFolder.id} linkToken={token} setUpdated={setUpdated} setIsRootFolder={setIsRootFolder} />}
-          <br/>
-          
         {showCreateLink && <CreateShareableLink folderId={shareFolderId} folderName={shareFolderName} />}
 
         {isLoading &&

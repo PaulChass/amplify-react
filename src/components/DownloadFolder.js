@@ -27,11 +27,9 @@ const DownloadFolder = ({ folderId, noText, isLoading, setIsLoading }) => {
         }
     };
 
-    return (<div>
-<button className='downloadButton' onClick={handleDownload} disabled={isLoading}>
+    return (<div onClick={handleDownload} disabled={isLoading}>
           {isLoading ? 'Downloading...' : 'Download'}
-        </button>{isLoading && <h3>Be patient... this could take a while 😉  </h3>
-        }
+            
         </div>    );
 };
 

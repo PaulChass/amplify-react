@@ -8,7 +8,7 @@ import DeleteFolder from './DeleteFolder';
 import RenameFolder from './RenameFolder';
 import CreateShareableLink from './CreateShareableLink';
 import '../css/FolderTree.css';
-import { Container, Row, Col, Button, Card , Dropdown, Spinner} from 'react-bootstrap';
+import { Container, Row, Col, Button, Card, Dropdown, Spinner } from 'react-bootstrap';
 
 
 const FolderTree = () => {
@@ -23,6 +23,8 @@ const FolderTree = () => {
     const [updated, setUpdated] = useState(false);
     const location = useLocation();
     const [showCreateLink, setShowCreateLink] = useState(false);
+    const [showRename, setShowRename] = useState(false);
+    const [showRenameId, setShowRenameId] = useState(null);
 
 
     const token = localStorage.getItem('token');
@@ -43,25 +45,41 @@ const FolderTree = () => {
             setLoggedIn(true);
             setUpdated(false);
             setShowCreateLink(false);
+            setShowRename(false);
         } catch (error) {
             console.error('Error fetching folders:', error);
         }
     };
 
 
-    const handleClick = (id) => {
-        setFolderId(id);
-        let newFolder = folders.find(folder => folder.id === id).name
-        setFolderName(folderName + '  >  ' + newFolder);
-    };
 
-    const handleCreateLinkClick = (id) => {
-        if (showCreateLink == true) {
-            setShowCreateLink(false);
-        } else {
-            setShareFolderId(id);
-            setShareFolderName(folders.find(folder => folder.id === id).name);
-            setShowCreateLink(true);
+
+    const handleClick = (id, type = 'null') => {
+        switch (type) {
+            case 'createLink':
+                if (showCreateLink == true) {
+                    setShowCreateLink(false);
+                } else {
+                    setShareFolderId(id);
+                    setShareFolderName(folders.find(folder => folder.id === id).name);
+                    setShowCreateLink(true);
+                }
+                break;
+
+
+            case 'rename':
+                setShowRenameId(id);
+                setShowRename(true);
+                break;
+
+
+
+            default:
+                if(!showRename){
+                setFolderId(id);
+                let newFolder = folders.find(folder => folder.id === id).name
+                setFolderName(folderName + '  >  ' + newFolder);}             
+                break;
         }
     };
 
@@ -101,32 +119,31 @@ const FolderTree = () => {
             .map(folder => (
                 <div key={folder.id}>
                     <div className='flexCenter'>
-                    <Card className="folder" onClick={() => handleClick(folder.id)} style={{ width: '18rem' }}>
-                        <Card.Body>
-                            <Card.Title>{folder.name}</Card.Title>
-                        </Card.Body>
-                    </Card>
-                    <Dropdown >
-                        <Dropdown.Toggle variant="dark" id="dropdown-basic">
-                         
-                        </Dropdown.Toggle>
-
-                        <Dropdown.Menu>
-                            <Dropdown.Item >         
-                                <DownloadFolder folderId={folder.id} isLoading={isLoading} setIsLoading={setIsLoading}  />
-                            </Dropdown.Item>
-                            <Dropdown.Item >                    
-                                <DeleteFolder folderId={folder.id} setFolders={setFolders} />
-                            </Dropdown.Item>
-                            <Dropdown.Item onClick={() => handleCreateLinkClick(folder.id)}>                    
-                               Share
-                            </Dropdown.Item>
-                            <Dropdown.Item>                    
-                                <RenameFolder folderId={folder.id} setFolders={setFolders} setUpdated={setUpdated} />
-                            </Dropdown.Item>
-
-                        </Dropdown.Menu>
-                    </Dropdown>
+                        <Card className="folder" onClick={() => handleClick(folder.id)} style={{ width: '18rem' }}>
+                            <Card.Body>
+                                <Card.Title>
+                                    {(showRename && showRenameId == folder.id) ? <RenameFolder folderId={folder.id} setFolders={setFolders} setUpdated={setUpdated} folderName={folder.name} /> :
+                                        folder.name}</Card.Title>
+                            </Card.Body>
+                        </Card>
+                        <Dropdown >
+                            <Dropdown.Toggle variant="dark" id="dropdown-basic">
+                            </Dropdown.Toggle>
+                            <Dropdown.Menu>
+                                <Dropdown.Item >
+                                    <DownloadFolder folderId={folder.id} isLoading={isLoading} setIsLoading={setIsLoading} setShowRename={setShowRename} />
+                                </Dropdown.Item>
+                                <Dropdown.Item>
+                                    <DeleteFolder folderId={folder.id} setFolders={setFolders} />
+                                </Dropdown.Item>
+                                <Dropdown.Item onClick={() => handleClick(folder.id, 'createLink')}>
+                                    Share
+                                </Dropdown.Item>
+                                <Dropdown.Item onClick={() => handleClick(folder.id, 'rename')}>
+                                    Rename
+                                </Dropdown.Item>
+                            </Dropdown.Menu>
+                        </Dropdown>
                     </div>
                 </div>
             ));
@@ -148,19 +165,19 @@ const FolderTree = () => {
                 <Row className="folders">
 
                     <h3 id='folderName'>{folderName}</h3>
-                    {isNotRootFolder && <Button variant='secondary' style={{ width: '100%',marginTop:'3rem', marginBottom: '2rem' }} onClick={() => handleBackClick(folderId)}>...</Button>}
+                    {isNotRootFolder && <Button variant='secondary' style={{ width: '100%', marginTop: '3rem', marginBottom: '2rem' }} onClick={() => handleBackClick(folderId)}>...</Button>}
 
                     {renderFolders(folders)}
                     <CreateFolder setFolders={setFolders} folderId={folderId} />
 
-                    <FileList folderId={folderId} isNotRootFolder={isNotRootFolder} isLoading={isLoading} setIsLoading={setIsLoading}  />                  
+                    <FileList folderId={folderId} isNotRootFolder={isNotRootFolder} />
                     {showCreateLink && <CreateShareableLink folderId={shareFolderId} folderName={shareFolderName} />}
-                    {isLoading && 
-                    <span>Loading please wait...<Spinner animation="border" role="status">
-        <span className="visually-hidden">Loading...</span>
-      </Spinner></span>}
+                    {isLoading &&
+                        <span>Loading please wait...<Spinner animation="border" role="status">
+                            <span className="visually-hidden">Loading...</span>
+                        </Spinner></span>}
                 </Row>
-                
+
             </Container>
         );
     }

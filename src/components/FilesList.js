@@ -10,7 +10,7 @@ import {  Dropdown } from 'react-bootstrap';
 
 
 
-const FilesList = ({ folderId, linkToken, isNotRootFolder, isLoading, setIsLoading }) => {
+const FilesList = ({ folderId, linkToken, isNotRootFolder }) => {
     const [files, setFiles] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -48,6 +48,7 @@ const FilesList = ({ folderId, linkToken, isNotRootFolder, isLoading, setIsLoadi
         }
     };
 
+    
     //if (loading) return <p>Loading files...</p>;
     //if (error) return <p>You need to be logged in to access your drive {linkToken}<a style={{ marginLeft: '10px', marginRight: '10px' }} href='http://localhost:3000/login'>Login</a><a href='http://localhost:3000/register'>Register</a></p>;
     return (
@@ -58,11 +59,8 @@ const FilesList = ({ folderId, linkToken, isNotRootFolder, isLoading, setIsLoadi
                         {file.name}
                         <Dropdown >
                         <Dropdown.Toggle variant="dark" id="dropdown-filelist">
-                         
                         </Dropdown.Toggle>
-
                         <Dropdown.Menu>
-                           
                             <Dropdown.Item >                    
                             <DownloadFile file={file}/>
                             </Dropdown.Item>
@@ -72,7 +70,6 @@ const FilesList = ({ folderId, linkToken, isNotRootFolder, isLoading, setIsLoadi
                             <Dropdown.Item>                    
                             <RenameFile fileId={file.id} setFiles={setFiles} />
                             </Dropdown.Item>
-
                         </Dropdown.Menu>
                     </Dropdown>
                     
@@ -80,7 +77,7 @@ const FilesList = ({ folderId, linkToken, isNotRootFolder, isLoading, setIsLoadi
                 ))}
             </ul>
             <p>{linkToken}</p>
-            {isNotRootFolder && <FileUpload folderId={folderId} setUpdated={setUpdated} linkToken={linkToken} isLoading={isLoading} setIsLoading={setIsLoading}/>}
+            {isNotRootFolder && <FileUpload folderId={folderId} setUpdated={setUpdated} linkToken={linkToken} />}
         </div>
     );
 };

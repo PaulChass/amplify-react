@@ -27,10 +27,9 @@ const DownloadFile = ({ file , isLoading ,setIsLoading }) => {
         }
     };
 
-return (<div>
-    <button className='' onClick={handleDownload} disabled={isLoading}>
+return (<div onClick={handleDownload}>
               {isLoading ? 'Downloading...' : 'Download'}
-            </button>{isLoading && <p>Your file is downloading</p>}</div>    );
-    };
+        </div>    );
+        };
     
     export default DownloadFile;
