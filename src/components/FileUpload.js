@@ -61,9 +61,9 @@ const FileUpload = ({ folderId, setUpdated, linkToken, setIsRootFolder }) => {
           </Spinner>
         </span>
       ) : (
-        <div >
+        <div style={{marginTop:'1rem'}}>
 
-          <Form onSubmit={handleUpload} className="file_form" style={{}}>
+          <Form onSubmit={handleUpload} className="file_form" style={{marginTop:'1rem'}}>
             <Form.Control type="file" multiple onChange={handleFileChange} />
             <Button type="submit">Upload</Button>
           </Form>
